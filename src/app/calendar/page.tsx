@@ -33,7 +33,7 @@ const Calendar = () => {
 
     const fetchVisitBloomEvents = async () => {
       try {
-        const response = await fetch('/api/proxy');
+        const response = await fetch('/api/visitBloomEvents');
         const { events } = await response.json();
         console.log(events);
       } catch (error) {
