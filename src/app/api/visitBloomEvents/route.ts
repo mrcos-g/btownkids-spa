@@ -7,6 +7,7 @@ export async function GET() {
     const today = new Date();
     const firstDayOfMonthEncoded = encodeURIComponent(startOfMonth(today).toISOString());
     const firstDayOfNextMonthEncoded = startOfNextMonthEncoded(today);
+    console.log({ firstDayOfMonthEncoded, firstDayOfNextMonthEncoded });
 
     const tokenResponse = await fetch(
       'https://www.visitbloomington.com/plugins/core/get_simple_token/',
