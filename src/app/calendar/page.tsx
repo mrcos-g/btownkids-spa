@@ -4,8 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
 import { format, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
-import { mcplFormatter } from '@/lib/mcplFormatter';
-import { visitBloomFormatter } from '@/lib/visitBloomFormatter';
+import { mcplFormatter, visitBloomFormatter } from '@/lib/formatters';
 
 interface McplEvent {
   title: string;
