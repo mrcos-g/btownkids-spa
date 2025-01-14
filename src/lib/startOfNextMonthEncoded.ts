@@ -7,7 +7,5 @@ export const startOfNextMonthEncoded = (date: Date): string => {
   const followingMonthInUTC = toZonedTime(firstDayOfFollowingMonth, 'UTC');
   followingMonthInUTC.setUTCHours(5, 0, 0, 0);
 
-  const formattedTime = followingMonthInUTC.toISOString();
-
-  return encodeURIComponent(formattedTime);
+  return followingMonthInUTC.toISOString();
 };
