@@ -14,6 +14,7 @@ interface McplEvent {
   end: string;
   description: string;
   color?: string;
+  url: string;
 }
 const Calendar = () => {
   const [events, setEvents] = useState<McplEvent[]>([]);
@@ -58,6 +59,10 @@ const Calendar = () => {
         left: 'prev,next today',
         center: 'title',
         right: 'listMonth dayGridMonth',
+      }}
+      eventClick={(event) => {
+        event.jsEvent.preventDefault();
+        window.open(event.event.url, '_blank');
       }}
     />
   );

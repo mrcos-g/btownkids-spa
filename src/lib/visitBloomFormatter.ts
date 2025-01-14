@@ -10,10 +10,12 @@ interface Event {
   description: string;
   dates: EventDates;
   color?: string;
+  url: string;
 }
 
 export const visitBloomFormatter = (data: Event[]) => {
   const timeZone = 'America/Indiana/Indianapolis';
+  const baseURL = 'https://www.visitbloomington.com';
   return data.map((event) => {
     const bloomingtonTime = toZonedTime(event.dates.eventDate, timeZone);
     const formattedDate = format(bloomingtonTime, 'yyyy-MM-dd');
@@ -27,6 +29,7 @@ export const visitBloomFormatter = (data: Event[]) => {
         .replace(/&nbsp;/g, ' ')
         .replace(/&amp;/g, '&'),
       color,
+      url: `${baseURL}${event.url}`,
     };
   });
 };
