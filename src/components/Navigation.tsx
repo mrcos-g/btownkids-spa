@@ -1,9 +1,27 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const links = new Map().set('Home', '/').set('About', '/about').set('Calendar', '/calendar');
+  const linkItemClasses = 'mt-4 block text-teal-200 hover:text-white lg:mt-0';
+  const renderLinks = () => {
+    return Array.from(links).map(([name, href]) => {
+      const active = pathname === href;
+      if (!active) {
+        return (
+          <Link key={name} href={href} className={linkItemClasses}>
+            {name}
+          </Link>
+        );
+      }
+    });
+  };
 
   return (
     <nav className="relative flex w-screen items-center justify-end bg-[#47663B] p-6">
@@ -27,14 +45,7 @@ const Navigation = () => {
           menuOpen ? 'block' : 'hidden'
         }`}
       >
-        <div className="flex flex-col lg:flex-row lg:space-x-4">
-          <a href="#about" className="mt-4 block text-teal-200 hover:text-white lg:mt-0">
-            About
-          </a>
-          <a href="#contact" className="mt-4 block text-teal-200 hover:text-white lg:mt-0">
-            Calendar
-          </a>
-        </div>
+        <div className="flex flex-col lg:flex-row lg:space-x-4">{renderLinks()}</div>
       </div>
     </nav>
   );
