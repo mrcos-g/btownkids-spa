@@ -14,7 +14,7 @@ const Calendar = () => {
   return (
     <FullCalendar
       plugins={[dayGridView, listMonth]}
-      initialView="listMonth"
+      initialView="dayGridMonth"
       events={events}
       headerToolbar={{
         left: 'prev,next today',
