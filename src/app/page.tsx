@@ -1,4 +1,4 @@
-import Navigation from '../components/Navigation';
+import Navigation from '@/components/Navigation';
 
 import Image from 'next/image';
 
