@@ -19,3 +19,12 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.fc .fc-toolbar-title {
+  margin: 2rem;
+}
+.fc-prev-button span,
+.fc-next-button span,
+.fc-toolbar-title {
+  display: inline;
+}

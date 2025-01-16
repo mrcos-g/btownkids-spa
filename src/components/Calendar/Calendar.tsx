@@ -17,9 +17,9 @@ const Calendar = () => {
       initialView="dayGridMonth"
       events={events}
       headerToolbar={{
-        left: 'prev,next today',
-        center: 'title',
-        right: 'listMonth dayGridMonth',
+        left: 'today',
+        center: 'prev,title,next',
+        right: 'listMonth,dayGridMonth',
       }}
       eventClick={(event) => {
         event.jsEvent.preventDefault();
