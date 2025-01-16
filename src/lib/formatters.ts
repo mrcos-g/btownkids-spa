@@ -6,6 +6,7 @@ interface McplEvent {
   event_end: string;
   description: string;
   url: string;
+  location_id: string;
 }
 
 interface BloomEventDates {
@@ -22,19 +23,34 @@ interface VisitBloomEvent {
   url: string;
 }
 
+const getMcplLocation = (locationId: string) => {
+  switch (locationId) {
+    case '3696':
+      return { location: 'Ellettsville Branch', color: 'green' };
+    case '3697':
+      return { location: 'South West Branch', color: 'purple' };
+    case '3648':
+      return { location: 'Downtown Library', color: '#3788d8' };
+    default:
+      return { location: 'Unknown Location', color: 'gray' };
+  }
+};
+
 const normalizeUrl = (url: string) => {
   return url.replace(/([^:])\/{2,}/g, '$1/');
 };
 
 export const mcplFormatter = (data: McplEvent[]) => {
-  console.log(data);
   return data.map((event) => {
+    const { location, color } = getMcplLocation(event.location_id);
     return {
       title: event.title,
       start: event.event_start,
       end: event.event_end,
       description: event.description,
       url: normalizeUrl(event.url),
+      location,
+      color,
     };
   });
 };
