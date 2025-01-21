@@ -1,4 +1,7 @@
-import Calendar from '@/components/Calendar';
+'use client';
+import dynamic from 'next/dynamic';
+
+const Calendar = dynamic(() => import('@/components/Calendar'), { ssr: false });
 
 const CalendarPage = () => {
   return (

@@ -13,6 +13,9 @@ const Calendar = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const initialView = window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth';
+      setCalendarView(initialView);
+
       const updateView = () => {
         if (window.innerWidth < 768) {
           setCalendarView('listMonth');
@@ -22,7 +25,6 @@ const Calendar = () => {
       };
 
       window.addEventListener('resize', updateView);
-      updateView();
 
       return () => window.removeEventListener('resize', updateView);
     }
