@@ -7,13 +7,6 @@
   --foreground: #171717;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -22,4 +15,21 @@ body {
 
 .fc {
   margin: 0 1rem;
+}
+
+.fc-header-toolbar .fc-button-group {
+  margin: 0.5rem 0;
+}
+
+.fc-header-toolbar .fc-toolbar-chunk {
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-listMonth-button {
+  margin: 0.5rem 0 !important;
+}
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+  margin-left: 0;
 }
