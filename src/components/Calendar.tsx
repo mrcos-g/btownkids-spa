@@ -12,15 +12,15 @@ const Calendar = () => {
   );
 
   useEffect(() => {
-    const updateView = () => {
-      if (window.innerWidth < 768) {
-        setCalendarView('listMonth');
-      } else {
-        setCalendarView('dayGridMonth');
-      }
-    };
-
     if (typeof window !== 'undefined') {
+      const updateView = () => {
+        if (window.innerWidth < 768) {
+          setCalendarView('listMonth');
+        } else {
+          setCalendarView('dayGridMonth');
+        }
+      };
+
       window.addEventListener('resize', updateView);
       updateView();
 
