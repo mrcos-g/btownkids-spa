@@ -20,10 +20,12 @@ const Calendar = () => {
       }
     };
 
-    window.addEventListener('resize', updateView);
-    updateView();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', updateView);
+      updateView();
 
-    return () => window.removeEventListener('resize', updateView);
+      return () => window.removeEventListener('resize', updateView);
+    }
   }, []);
 
   if (error) {
