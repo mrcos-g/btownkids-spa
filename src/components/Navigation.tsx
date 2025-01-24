@@ -8,7 +8,7 @@ const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const links = new Map().set('Home', '/').set('About', '/about').set('Calendar', '/calendar');
+  const links = new Map().set('Home', '/').set('Calendar', '/calendar');
   const linkItemClasses = 'mt-4 block text-teal-200 hover:text-white lg:mt-0';
   const renderLinks = () => {
     return Array.from(links).map(([name, href]) => {
