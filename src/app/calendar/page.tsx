@@ -2,13 +2,13 @@
 import dynamic from 'next/dynamic';
 
 const Calendar = dynamic(() => import('@/components/Calendar'), { ssr: false });
+import EventFilter from '@/components/EventFilter';
 
 const CalendarPage = () => {
   return (
     <div className="flex min-h-screen flex-col">
+      <EventFilter />
       <Calendar />
-
-      {/* <footer className="flex flex-wrap items-center justify-center gap-6 bg-gray-800 p-4"></footer> */}
     </div>
   );
 };
