@@ -1,22 +1,28 @@
 import { FC } from 'react';
 
 const EventFilter: FC = () => {
+  const sources = [
+    'Ellettsville Branch (MCPL)',
+    'South West Branch (MCPL)',
+    'Downtown Library',
+    'VisitBloomington',
+  ];
   return (
     <div className="flex space-x-4 p-4">
       <div>
-        <h3>Filter by Source</h3>
-        <label className="flex items-center space-x-2">
-          <input type="checkbox" />
-          <span>Source 1</span>
-        </label>
-        <label className="flex items-center space-x-2">
-          <input type="checkbox" />
-          <span>Source 2</span>
-        </label>
-        <label className="flex items-center space-x-2">
-          <input type="checkbox" />
-          <span>Source 3</span>
-        </label>
+        <div>
+          <h3>Filter by Source</h3>
+        </div>
+        <div className="flex">
+          {sources.map((source) => {
+            return (
+              <label key={source} className="mx-2 flex items-center space-x-4">
+                <input type="checkbox" value={source} />
+                <span>{source}</span>
+              </label>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
