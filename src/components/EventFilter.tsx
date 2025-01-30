@@ -1,6 +1,20 @@
-import { FC } from 'react';
+import { useState, FC } from 'react';
 
-const EventFilter: FC = () => {
+interface EventFilterProps {
+  onFilterChange: (selectedSources: string[]) => void;
+}
+
+const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
+  const [selectedSources, setSelectedSources] = useState<string[]>([]);
+
+  const handleSourceChange = (source: string) => {
+    const currentlySelectedSources = selectedSources.includes(source)
+      ? selectedSources.filter((selectedSource) => selectedSource !== source)
+      : [...selectedSources, source];
+    setSelectedSources(currentlySelectedSources);
+    onFilterChange(currentlySelectedSources);
+  };
+
   const sources = [
     'Ellettsville Branch (MCPL)',
     'South West Branch (MCPL)',
@@ -17,7 +31,12 @@ const EventFilter: FC = () => {
           {sources.map((source) => {
             return (
               <label key={source} className="mx-2 flex items-center space-x-4">
-                <input type="checkbox" value={source} />
+                <input
+                  type="checkbox"
+                  value={source}
+                  checked={selectedSources.includes(source)}
+                  onChange={() => handleSourceChange(source)}
+                />
                 <span>{source}</span>
               </label>
             );
