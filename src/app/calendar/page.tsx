@@ -1,14 +1,21 @@
 'use client';
+import { useState } from 'react';
+import { EventSource } from '@/components/EventFilter';
 import dynamic from 'next/dynamic';
 
 const Calendar = dynamic(() => import('@/components/Calendar'), { ssr: false });
+import EventFilter from '@/components/EventFilter';
 
 const CalendarPage = () => {
+  const [sourceFilters, setSourceFilters] = useState<string[]>(Object.values(EventSource));
+  const handleFilterChange = (selectedSources: string[]) => {
+    setSourceFilters(selectedSources);
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
-      <Calendar />
-
-      {/* <footer className="flex flex-wrap items-center justify-center gap-6 bg-gray-800 p-4"></footer> */}
+      <EventFilter onFilterChange={handleFilterChange} />
+      <Calendar sourceFilters={sourceFilters} />
     </div>
   );
 };

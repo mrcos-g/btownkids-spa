@@ -1,11 +1,15 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
 import { useFetchEvents } from '@/hooks/useFetchEvents';
 
-const Calendar = () => {
+interface CalendarProps {
+  sourceFilters: string[];
+}
+
+const Calendar: FC<CalendarProps> = ({ sourceFilters = [] }) => {
   const { events, error } = useFetchEvents();
   const [calendarView, setCalendarView] = useState(
     window.innerWidth < 768 ? 'listMonth' : 'dayGridMonth',
@@ -34,12 +38,16 @@ const Calendar = () => {
     return <div>Failed to fetch events: {error.message}</div>;
   }
 
+  const filteredEvents = (events || []).filter((event) => {
+    return sourceFilters.includes(event.source);
+  });
+
   return (
     <div className="h-full">
       <FullCalendar
         plugins={[dayGridView, listMonth]}
         initialView={calendarView}
-        events={events}
+        events={filteredEvents}
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
