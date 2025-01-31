@@ -27,12 +27,12 @@ const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
     'VisitBloomington',
   ];
   return (
-    <div className="flex space-x-4 p-4">
+    <div className="flex flex-col p-4 md:flex-row md:space-x-4">
       <div>
         <div>
-          <h3>Filter by Source</h3>
+          <h3 className="text-lg md:text-xl">Filter by Source</h3>
         </div>
-        <div className="flex">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {sources.map((source) => {
             return (
               <label key={source} className="mx-2 flex items-center space-x-4">
@@ -42,7 +42,7 @@ const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
                   checked={selectedSources.includes(source)}
                   onChange={() => handleSourceChange(source)}
                 />
-                <span>{source}</span>
+                <span className="text-sm md:text-base">{source}</span>
               </label>
             );
           })}
