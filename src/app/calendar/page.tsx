@@ -1,17 +1,13 @@
 'use client';
 import { useState } from 'react';
+import { EventSource } from '@/components/EventFilter';
 import dynamic from 'next/dynamic';
 
 const Calendar = dynamic(() => import('@/components/Calendar'), { ssr: false });
 import EventFilter from '@/components/EventFilter';
 
 const CalendarPage = () => {
-  const [sourceFilters, setSourceFilters] = useState<string[]>([
-    'Ellettsville Branch (MCPL)',
-    'Southwest Branch (MCPL)',
-    'Downtown Library (MCPL)',
-    'VisitBloomington',
-  ]);
+  const [sourceFilters, setSourceFilters] = useState<string[]>(Object.values(EventSource));
   const handleFilterChange = (selectedSources: string[]) => {
     setSourceFilters(selectedSources);
   };

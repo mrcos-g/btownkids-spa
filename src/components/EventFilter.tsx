@@ -4,13 +4,15 @@ interface EventFilterProps {
   onFilterChange: (selectedSources: string[]) => void;
 }
 
+export enum EventSource {
+  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
+  SOUTHWEST = 'Southwest Branch (MCPL)',
+  DOWNTOWN = 'Downtown Library (MCPL)',
+  VISIT_BLOOMINGTON = 'VisitBloomington',
+}
+
 const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
-  const [selectedSources, setSelectedSources] = useState<string[]>([
-    'Ellettsville Branch (MCPL)',
-    'Southwest Branch (MCPL)',
-    'Downtown Library (MCPL)',
-    'VisitBloomington',
-  ]);
+  const [selectedSources, setSelectedSources] = useState<string[]>(Object.values(EventSource));
 
   const handleSourceChange = (source: string) => {
     const currentlySelectedSources = selectedSources.includes(source)
@@ -20,12 +22,8 @@ const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
     onFilterChange(currentlySelectedSources);
   };
 
-  const sources = [
-    'Ellettsville Branch (MCPL)',
-    'Southwest Branch (MCPL)',
-    'Downtown Library (MCPL)',
-    'VisitBloomington',
-  ];
+  const sources = Object.values(EventSource);
+
   return (
     <div className="flex flex-col p-4 md:flex-row md:space-x-4">
       <div>

@@ -1,4 +1,5 @@
 import { toZonedTime, format } from 'date-fns-tz';
+import { EventSource } from '@/components/EventFilter';
 
 interface McplEvent {
   title: string;
@@ -26,11 +27,11 @@ interface VisitBloomEvent {
 const getMcplLocation = (locationId: string) => {
   switch (locationId) {
     case '3696':
-      return { location: 'Ellettsville Branch (MCPL)', color: 'green' };
+      return { location: EventSource.ELLETTSVILLE, color: 'green' };
     case '3697':
-      return { location: 'Southwest Branch (MCPL)', color: 'purple' };
+      return { location: EventSource.SOUTHWEST, color: 'purple' };
     case '3648':
-      return { location: 'Downtown Library (MCPL)', color: '#3788d8' };
+      return { location: EventSource.DOWNTOWN, color: '#3788d8' };
     default:
       return { location: 'Unknown Location', color: 'gray' };
   }
