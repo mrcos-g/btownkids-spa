@@ -5,7 +5,12 @@ interface EventFilterProps {
 }
 
 const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
-  const [selectedSources, setSelectedSources] = useState<string[]>([]);
+  const [selectedSources, setSelectedSources] = useState<string[]>([
+    'Ellettsville Branch (MCPL)',
+    'Southwest Branch (MCPL)',
+    'Downtown Library (MCPL)',
+    'VisitBloomington',
+  ]);
 
   const handleSourceChange = (source: string) => {
     const currentlySelectedSources = selectedSources.includes(source)
@@ -17,8 +22,8 @@ const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
 
   const sources = [
     'Ellettsville Branch (MCPL)',
-    'South West Branch (MCPL)',
-    'Downtown Library',
+    'Southwest Branch (MCPL)',
+    'Downtown Library (MCPL)',
     'VisitBloomington',
   ];
   return (

@@ -9,6 +9,7 @@ interface McplEvent {
   description: string;
   color?: string;
   url: string;
+  source: string;
 }
 
 export const useFetchEvents = () => {

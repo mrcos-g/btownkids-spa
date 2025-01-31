@@ -26,11 +26,11 @@ interface VisitBloomEvent {
 const getMcplLocation = (locationId: string) => {
   switch (locationId) {
     case '3696':
-      return { location: 'Ellettsville Branch', color: 'green' };
+      return { location: 'Ellettsville Branch (MCPL)', color: 'green' };
     case '3697':
-      return { location: 'South West Branch', color: 'purple' };
+      return { location: 'Southwest Branch (MCPL)', color: 'purple' };
     case '3648':
-      return { location: 'Downtown Library', color: '#3788d8' };
+      return { location: 'Downtown Library (MCPL)', color: '#3788d8' };
     default:
       return { location: 'Unknown Location', color: 'gray' };
   }
@@ -50,6 +50,7 @@ export const mcplFormatter = (data: McplEvent[]) => {
       description: event.description,
       url: normalizeUrl(event.url),
       location,
+      source: location,
       color,
     };
   });
@@ -72,6 +73,7 @@ export const visitBloomFormatter = (data: VisitBloomEvent[]) => {
         .replace(/&amp;/g, '&'),
       color,
       url: `${baseURL}${event.url}`,
+      source: 'VisitBloomington',
     };
   });
 };
