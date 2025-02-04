@@ -5,7 +5,8 @@ import { Roboto } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
 import './globals.css';
-import Navigation from '@/components/Navigation';
+// import Navigation from '@/components/Navigation';
+import DrawerAppBar from '@/components/Navigation';
 
 // const geistSans = Geist({
 //   variable: '--font-geist-sans',
@@ -24,8 +25,6 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   initialScale: 1,
-  maximumScale: 1,
-  minimumScale: 1,
   width: 'device-width',
 };
 
@@ -43,10 +42,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` ${roboto.variable} antialiased`}>
+      <body className={`${roboto.variable} antialiased`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Navigation />
+            {/* <Navigation /> */}
+            <DrawerAppBar />
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>

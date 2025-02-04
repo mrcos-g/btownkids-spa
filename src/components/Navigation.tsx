@@ -1,54 +1,92 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { Dispatch, SetStateAction, useState } from 'react';
+import {
+  AppBar,
+  Box,
+  Checkbox,
+  CssBaseline,
+  Collapse,
+  Drawer,
+  FormGroup,
+  FormControlLabel,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+} from '@mui/material';
 import { usePathname } from 'next/navigation';
 
-const Navigation = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+import { Menu, ExpandMore, ExpandLess, FilterAlt } from '@mui/icons-material';
+
+const DrawerAppBar = () => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+
   const pathname = usePathname();
 
-  const links = new Map().set('Home', '/').set('Calendar', '/calendar');
-  const linkItemClasses = 'mt-4 block text-teal-200 hover:text-white lg:mt-0';
-  const renderLinks = () => {
-    return Array.from(links).map(([name, href]) => {
-      const active = pathname === href;
-      if (!active) {
-        return (
-          <Link key={name} href={href} className={linkItemClasses}>
-            {name}
-          </Link>
-        );
-      }
-    });
+  const toggleState = (setState: Dispatch<SetStateAction<boolean>>) => {
+    setState((previousState) => !previousState);
   };
 
+  const handleFilterMenuOpen = () => toggleState(setFilterMenuOpen);
+  const handleDrawerOpen = () => toggleState(setDrawerOpen);
+
+  const renderSourceFilters = () => (
+    <List>
+      <ListItemButton onClick={handleFilterMenuOpen}>
+        <ListItemIcon>
+          <FilterAlt />
+        </ListItemIcon>
+        <ListItemText primary="Source Filters" />
+        {filterMenuOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={filterMenuOpen} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <FormGroup>
+            <FormControlLabel sx={{ pl: 4 }} control={<Checkbox defaultChecked />} label="Label" />
+            <FormControlLabel sx={{ pl: 4 }} required control={<Checkbox />} label="Required" />
+            <FormControlLabel sx={{ pl: 4 }} disabled control={<Checkbox />} label="Disabled" />
+          </FormGroup>
+        </List>
+      </Collapse>
+    </List>
+  );
+
   return (
-    <nav className="relative flex w-screen items-center justify-end bg-[#47663B] p-6">
-      <div className="block lg:hidden">
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="flex items-center rounded border border-[#47663B] px-3 py-2 text-teal-200 hover:border-white hover:text-white"
-        >
-          <svg
-            className="h-3 w-3 fill-current"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar component="nav">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            sx={{ mr: 2 }}
+            onClick={handleDrawerOpen}
           >
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </button>
-      </div>
-      <div
-        className={`absolute right-0 top-full bg-[#47663B] p-4 transition-all duration-300 ease-in-out lg:static lg:flex lg:items-center lg:justify-end lg:p-0 ${
-          menuOpen ? 'block' : 'hidden'
-        }`}
+            <Menu />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        open={drawerOpen}
+        onClose={handleDrawerOpen}
+        PaperProps={{
+          sx: {
+            position: 'fixed',
+            top: { xs: '57px', sm: '64px' },
+            height: { xs: `calc(100% - 57px)`, sm: `calc(100% - 64px)` },
+            width: { xs: '240px', sm: '300px' },
+          },
+        }}
       >
-        <div className="flex flex-col lg:flex-row lg:space-x-4">{renderLinks()}</div>
-      </div>
-    </nav>
+        {pathname === '/calendar' && renderSourceFilters()}
+      </Drawer>
+    </Box>
   );
 };
 
-export default Navigation;
+export default DrawerAppBar;
