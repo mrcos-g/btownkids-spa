@@ -18,12 +18,19 @@ import {
   Toolbar,
 } from '@mui/material';
 import { usePathname } from 'next/navigation';
-
 import { Menu, ExpandMore, ExpandLess, FilterAlt } from '@mui/icons-material';
+
+export enum EventSource {
+  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
+  SOUTHWEST = 'Southwest Branch (MCPL)',
+  DOWNTOWN = 'Downtown Library (MCPL)',
+  VISIT_BLOOMINGTON = 'VisitBloomington',
+}
 
 const DrawerAppBar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+  const [selectedSources, setSelectedSources] = useState<string[]>(Object.values(EventSource));
 
   const pathname = usePathname();
 
@@ -33,6 +40,13 @@ const DrawerAppBar = () => {
 
   const handleFilterMenuOpen = () => toggleState(setFilterMenuOpen);
   const handleDrawerOpen = () => toggleState(setDrawerOpen);
+
+  const handleSourceChange = (source: string) => {
+    const currentlySelectedSources = selectedSources.includes(source)
+      ? selectedSources.filter((selectedSource) => selectedSource !== source)
+      : [...selectedSources, source];
+    setSelectedSources(currentlySelectedSources);
+  };
 
   const renderSourceFilters = () => (
     <List>
@@ -46,9 +60,19 @@ const DrawerAppBar = () => {
       <Collapse in={filterMenuOpen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <FormGroup>
-            <FormControlLabel sx={{ pl: 4 }} control={<Checkbox defaultChecked />} label="Label" />
-            <FormControlLabel sx={{ pl: 4 }} required control={<Checkbox />} label="Required" />
-            <FormControlLabel sx={{ pl: 4 }} disabled control={<Checkbox />} label="Disabled" />
+            {Object.values(EventSource).map((source) => (
+              <FormControlLabel
+                key={source}
+                sx={{ pl: 4 }}
+                control={
+                  <Checkbox
+                    checked={selectedSources.includes(source)}
+                    onChange={() => handleSourceChange(source)}
+                  />
+                }
+                label={source}
+              />
+            ))}
           </FormGroup>
         </List>
       </Collapse>
@@ -74,6 +98,9 @@ const DrawerAppBar = () => {
       <Drawer
         open={drawerOpen}
         onClose={handleDrawerOpen}
+        ModalProps={{
+          keepMounted: true,
+        }}
         PaperProps={{
           sx: {
             position: 'fixed',

@@ -1,22 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-// import { Geist, Geist_Mono } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { Roboto } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
 import './globals.css';
-// import Navigation from '@/components/Navigation';
 import DrawerAppBar from '@/components/Navigation';
-
-// const geistSans = Geist({
-//   variable: '--font-geist-sans',
-//   subsets: ['latin'],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: '--font-geist-mono',
-//   subsets: ['latin'],
-// });
 
 export const metadata: Metadata = {
   title: 'Btown Kids',
@@ -45,7 +33,6 @@ export default function RootLayout({
       <body className={`${roboto.variable} antialiased`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            {/* <Navigation /> */}
             <DrawerAppBar />
             {children}
           </ThemeProvider>
