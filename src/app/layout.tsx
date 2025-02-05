@@ -5,6 +5,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
 import './globals.css';
 import DrawerAppBar from '@/components/Navigation';
+import { EventSourceProvider } from '@/context/EventSourceContext';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Btown Kids',
@@ -33,8 +35,10 @@ export default function RootLayout({
       <body className={`${roboto.variable} antialiased`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <DrawerAppBar />
-            {children}
+            <EventSourceProvider>
+              <DrawerAppBar />
+              {children}
+            </EventSourceProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

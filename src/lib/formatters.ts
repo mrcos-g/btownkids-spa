@@ -1,5 +1,5 @@
 import { toZonedTime, format } from 'date-fns-tz';
-import { EventSource } from '@/components/EventFilter';
+import { EventSource } from '@/context/EventSourceContext';
 
 interface McplEvent {
   title: string;

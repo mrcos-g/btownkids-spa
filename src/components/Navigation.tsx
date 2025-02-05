@@ -1,6 +1,5 @@
 'use client';
-
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import {
   AppBar,
   Box,
@@ -19,18 +18,12 @@ import {
 } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { Menu, ExpandMore, ExpandLess, FilterAlt } from '@mui/icons-material';
+import { useEventSourceContext, EventSource } from '@/context/EventSourceContext';
 
-export enum EventSource {
-  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
-  SOUTHWEST = 'Southwest Branch (MCPL)',
-  DOWNTOWN = 'Downtown Library (MCPL)',
-  VISIT_BLOOMINGTON = 'VisitBloomington',
-}
-
-const DrawerAppBar = () => {
+const DrawerAppBar: FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
-  const [selectedSources, setSelectedSources] = useState<string[]>(Object.values(EventSource));
+  const { selectedSources, setStateSelectedSource } = useEventSourceContext();
 
   const pathname = usePathname();
 
@@ -40,13 +33,6 @@ const DrawerAppBar = () => {
 
   const handleFilterMenuOpen = () => toggleState(setFilterMenuOpen);
   const handleDrawerOpen = () => toggleState(setDrawerOpen);
-
-  const handleSourceChange = (source: string) => {
-    const currentlySelectedSources = selectedSources.includes(source)
-      ? selectedSources.filter((selectedSource) => selectedSource !== source)
-      : [...selectedSources, source];
-    setSelectedSources(currentlySelectedSources);
-  };
 
   const renderSourceFilters = () => (
     <List>
@@ -67,7 +53,7 @@ const DrawerAppBar = () => {
                 control={
                   <Checkbox
                     checked={selectedSources.includes(source)}
-                    onChange={() => handleSourceChange(source)}
+                    onChange={() => setStateSelectedSource(source)}
                   />
                 }
                 label={source}
