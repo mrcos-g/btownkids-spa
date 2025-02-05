@@ -6,6 +6,7 @@ import {
   Checkbox,
   CssBaseline,
   Collapse,
+  Divider,
   Drawer,
   FormGroup,
   FormControlLabel,
@@ -16,8 +17,9 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material';
+import { CalendarToday, Menu, ExpandMore, ExpandLess, FilterAlt, Home } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
-import { Menu, ExpandMore, ExpandLess, FilterAlt } from '@mui/icons-material';
+import Link from 'next/link';
 import { useEventSourceContext, EventSource } from '@/context/EventSourceContext';
 
 const DrawerAppBar: FC = () => {
@@ -36,6 +38,7 @@ const DrawerAppBar: FC = () => {
 
   const renderSourceFilters = () => (
     <List>
+      <Divider />
       <ListItemButton onClick={handleFilterMenuOpen}>
         <ListItemIcon>
           <FilterAlt />
@@ -96,6 +99,20 @@ const DrawerAppBar: FC = () => {
           },
         }}
       >
+        <List>
+          <ListItemButton component={Link} href="/" selected={pathname === '/'}>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItemButton>
+          <ListItemButton component={Link} href="/calendar" selected={pathname === '/calendar'}>
+            <ListItemIcon>
+              <CalendarToday />
+            </ListItemIcon>
+            <ListItemText primary="Calendar" />
+          </ListItemButton>
+        </List>
         {pathname === '/calendar' && renderSourceFilters()}
       </Drawer>
     </Box>
