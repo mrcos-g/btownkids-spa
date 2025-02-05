@@ -10,7 +10,7 @@ export enum EventSource {
 
 interface EventSourceContextType {
   selectedSources: string[];
-  setSelectedSources: (source: string[]) => void;
+  setStateSelectedSources: (source: string[]) => void;
 }
 
 interface EventSourceProviderProps {
