@@ -6,7 +6,7 @@ import listMonth from '@fullcalendar/list';
 import { useFetchEvents } from '@/hooks/useFetchEvents';
 import { useEventSourceContext } from '@/context/EventSourceContext';
 
-const Calendar: FC<CalendarProps> = () => {
+const Calendar: FC = () => {
   const { events, error } = useFetchEvents();
   const { selectedSources } = useEventSourceContext();
   const [calendarView, setCalendarView] = useState(
