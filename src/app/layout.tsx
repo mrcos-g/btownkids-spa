@@ -4,7 +4,7 @@ import { Roboto } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
 import './globals.css';
-import DrawerAppBar from '@/components/Navigation';
+import DrawerAppBar from '@/components/DrawerAppBar';
 import { EventSourceProvider } from '@/context/EventSourceContext';
 import './globals.css';
 
