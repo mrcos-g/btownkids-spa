@@ -1,26 +1,9 @@
-import { useState, FC } from 'react';
+'use client';
+import { FC } from 'react';
+import { useEventSourceContext, EventSource } from '@/context/EventSourceContext';
 
-interface EventFilterProps {
-  onFilterChange: (selectedSources: string[]) => void;
-}
-
-export enum EventSource {
-  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
-  SOUTHWEST = 'Southwest Branch (MCPL)',
-  DOWNTOWN = 'Downtown Library (MCPL)',
-  VISIT_BLOOMINGTON = 'VisitBloomington',
-}
-
-const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
-  const [selectedSources, setSelectedSources] = useState<string[]>(Object.values(EventSource));
-
-  const handleSourceChange = (source: string) => {
-    const currentlySelectedSources = selectedSources.includes(source)
-      ? selectedSources.filter((selectedSource) => selectedSource !== source)
-      : [...selectedSources, source];
-    setSelectedSources(currentlySelectedSources);
-    onFilterChange(currentlySelectedSources);
-  };
+const EventFilter: FC = () => {
+  const { selectedSources, setStateSelectedSources } = useEventSourceContext();
 
   const sources = Object.values(EventSource);
 
@@ -38,7 +21,7 @@ const EventFilter: FC<EventFilterProps> = ({ onFilterChange }) => {
                   type="checkbox"
                   value={source}
                   checked={selectedSources.includes(source)}
-                  onChange={() => handleSourceChange(source)}
+                  onChange={() => setStateSelectedSources(source)}
                 />
                 <span className="text-sm md:text-base">{source}</span>
               </label>

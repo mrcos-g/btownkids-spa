@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
   const pathname = usePathname();
 
   const links = new Map().set('Home', '/').set('Calendar', '/calendar');
