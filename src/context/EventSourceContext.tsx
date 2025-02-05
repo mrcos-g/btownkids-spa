@@ -10,7 +10,7 @@ export enum EventSource {
 
 interface EventSourceContextType {
   selectedSources: string[];
-  setStateSelectedSources: (source: string[]) => void;
+  setStateSelectedSource: (source: string) => void;
 }
 
 interface EventSourceProviderProps {
@@ -22,7 +22,7 @@ const EventSourceContext = createContext<EventSourceContextType | undefined>(und
 export const EventSourceProvider = ({ children }: EventSourceProviderProps) => {
   const [selectedSources, setSelectedSources] = useState<string[]>(Object.values(EventSource));
 
-  const setStateSelectedSources = (source: string) => {
+  const setStateSelectedSource = (source: string) => {
     setSelectedSources((previousSelectedSources) =>
       previousSelectedSources.includes(source)
         ? previousSelectedSources.filter((selectedSource) => selectedSource !== source)
@@ -31,7 +31,7 @@ export const EventSourceProvider = ({ children }: EventSourceProviderProps) => {
   };
 
   return (
-    <EventSourceContext.Provider value={{ selectedSources, setStateSelectedSources }}>
+    <EventSourceContext.Provider value={{ selectedSources, setStateSelectedSource }}>
       {children}
     </EventSourceContext.Provider>
   );

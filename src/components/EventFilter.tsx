@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useEventSourceContext, EventSource } from '@/context/EventSourceContext';
 
 const EventFilter: FC = () => {
-  const { selectedSources, setStateSelectedSources } = useEventSourceContext();
+  const { selectedSources, setStateSelectedSource } = useEventSourceContext();
 
   const sources = Object.values(EventSource);
 
@@ -21,7 +21,7 @@ const EventFilter: FC = () => {
                   type="checkbox"
                   value={source}
                   checked={selectedSources.includes(source)}
-                  onChange={() => setStateSelectedSources(source)}
+                  onChange={() => setStateSelectedSource(source)}
                 />
                 <span className="text-sm md:text-base">{source}</span>
               </label>
