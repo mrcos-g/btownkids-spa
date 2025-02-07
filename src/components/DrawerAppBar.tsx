@@ -4,7 +4,6 @@ import {
   AppBar,
   Box,
   Checkbox,
-  CssBaseline,
   Collapse,
   Divider,
   Drawer,
@@ -70,7 +69,6 @@ const DrawerAppBar: FC = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
       <AppBar component="nav">
         <Toolbar>
           <IconButton

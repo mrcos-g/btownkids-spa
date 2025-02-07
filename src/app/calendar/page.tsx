@@ -1,12 +1,13 @@
 'use client';
 import dynamic from 'next/dynamic';
+import { Box } from '@mui/material';
 
 const Calendar = dynamic(() => import('@/components/Calendar'), { ssr: false });
 const CalendarPage = () => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
       <Calendar />
-    </div>
+    </Box>
   );
 };
 

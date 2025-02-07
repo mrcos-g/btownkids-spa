@@ -1,10 +1,12 @@
 'use client';
 import { useEffect, useState, FC } from 'react';
+import { Box } from '@mui/material';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
 import { useFetchEvents } from '@/hooks/useFetchEvents';
 import { useEventSourceContext } from '@/context/EventSourceContext';
+import '../app/globals.css';
 
 const Calendar: FC = () => {
   const { events, error } = useFetchEvents();
@@ -41,8 +43,8 @@ const Calendar: FC = () => {
   });
 
   return (
-    <div className="pt-16">
-      <div className="">
+    <Box sx={{ pt: 8 }}>
+      <Box>
         <FullCalendar
           plugins={[dayGridView, listMonth]}
           initialView={calendarView}
@@ -58,8 +60,8 @@ const Calendar: FC = () => {
           }}
           contentHeight={'auto'}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

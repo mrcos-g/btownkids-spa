@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { Roboto } from 'next/font/google';
-import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '../theme';
-import './globals.css';
 import DrawerAppBar from '@/components/DrawerAppBar';
 import { EventSourceProvider } from '@/context/EventSourceContext';
-import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Btown Kids',
@@ -18,13 +15,6 @@ export const viewport: Viewport = {
   width: 'device-width',
 };
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto',
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,9 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} antialiased`}>
+      <body className={`antialiased`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
+            <CssBaseline />
             <EventSourceProvider>
               <DrawerAppBar />
               {children}
