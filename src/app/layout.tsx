@@ -1,18 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import Navigation from '@/components/Navigation';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import theme from '../theme';
+import DrawerAppBar from '@/components/DrawerAppBar';
 import { EventSourceProvider } from '@/context/EventSourceContext';
-import './globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'Btown Kids',
@@ -21,8 +12,6 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   initialScale: 1,
-  maximumScale: 1,
-  minimumScale: 1,
   width: 'device-width',
 };
 
@@ -33,11 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <EventSourceProvider>
-          <Navigation />
-          {children}
-        </EventSourceProvider>
+      <body className={`antialiased`}>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <EventSourceProvider>
+              <DrawerAppBar />
+              {children}
+            </EventSourceProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

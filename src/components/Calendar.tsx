@@ -1,10 +1,12 @@
 'use client';
 import { useEffect, useState, FC } from 'react';
+import { Box } from '@mui/material';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
 import { useFetchEvents } from '@/hooks/useFetchEvents';
 import { useEventSourceContext } from '@/context/EventSourceContext';
+import '../app/globals.css';
 
 const Calendar: FC = () => {
   const { events, error } = useFetchEvents();
@@ -41,23 +43,25 @@ const Calendar: FC = () => {
   });
 
   return (
-    <div className="h-full">
-      <FullCalendar
-        plugins={[dayGridView, listMonth]}
-        initialView={calendarView}
-        events={filteredEvents}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'listMonth dayGridMonth',
-        }}
-        eventClick={(event) => {
-          event.jsEvent.preventDefault();
-          window.open(event.event.url, '_blank');
-        }}
-        contentHeight={'auto'}
-      />
-    </div>
+    <Box sx={{ pt: 8 }}>
+      <Box>
+        <FullCalendar
+          plugins={[dayGridView, listMonth]}
+          initialView={calendarView}
+          events={filteredEvents}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'listMonth dayGridMonth',
+          }}
+          eventClick={(event) => {
+            event.jsEvent.preventDefault();
+            window.open(event.event.url, '_blank');
+          }}
+          contentHeight={'auto'}
+        />
+      </Box>
+    </Box>
   );
 };
 
