@@ -15,7 +15,7 @@
 }
 
 .fc a {
-  color: var(--foreground);
+  color: inherit;
 }
 
 .fc-header-toolbar .fc-button-group {
@@ -34,5 +34,3 @@
 .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
   margin-left: 0;
 }
-
-
