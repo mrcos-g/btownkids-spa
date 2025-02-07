@@ -1,3 +1,15 @@
+@media (max-width: 375px) {
+  .fc-toolbar-title {
+    text-align: center;
+    width: 100%;
+  }
+
+  .fc-header-toolbar {
+    display: flex;
+    justify-content: center;
+  }
+}
+
 .fc {
   margin: 0 1rem;
 }
@@ -22,3 +34,5 @@
 .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
   margin-left: 0;
 }
+
+
