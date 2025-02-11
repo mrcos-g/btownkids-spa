@@ -15,6 +15,7 @@ export const fetchVisitBloomEvents = async () => {
   const {
     docs: { docs: bloomEvents },
   } = await response.json();
+  console.log({ bloomEvents });
 
   return visitBloomFormatter(bloomEvents);
 };
