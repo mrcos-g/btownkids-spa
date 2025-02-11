@@ -1,4 +1,7 @@
+import { startOfMonth } from 'date-fns';
 import { buildMcplURL } from '@/lib/buildMcplURL';
+import { startOfNextMonthEncoded } from '@/lib/startOfNextMonthEncoded';
+import { buildVisitBloomURL, fetchVisitBloomToken } from '@/lib/buildVisitBloomURL';
 import { mcplFormatter, visitBloomFormatter } from '@/lib/formatters';
 
 export const fetchMcplEvents = async (firstDayOfMonth: string, remainingDaysInMonth: number) => {
@@ -8,14 +11,22 @@ export const fetchMcplEvents = async (firstDayOfMonth: string, remainingDaysInMo
   return mcplFormatter(data);
 };
 
-export const fetchVisitBloomEvents = async () => {
-  const URL = `${process.env.API_BASE_URL}/api/visitBloomEvents`;
-  const response = await fetch(URL);
-  console.log('response', response);
-  const {
-    docs: { docs: bloomEvents },
-  } = await response.json();
-  console.log({ bloomEvents });
+export const fetchBloomEvents = async (date: Date) => {
+  const firstDayOfMonth = startOfMonth(date);
+  firstDayOfMonth.setUTCHours(5, 0, 0, 0);
+  const firstDayOfMonthISO = firstDayOfMonth.toISOString();
 
-  return visitBloomFormatter(bloomEvents);
+  const firstDayOfNextMonthISO = startOfNextMonthEncoded(date);
+
+  const token = await fetchVisitBloomToken();
+  console.log({ token });
+
+  const visitBloomURL = buildVisitBloomURL(firstDayOfMonthISO, firstDayOfNextMonthISO, token);
+
+  const visitBloomResponse = await fetch(visitBloomURL);
+  const {
+    docs: { docs: events },
+  } = await visitBloomResponse.json();
+
+  return visitBloomFormatter(events);
 };

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { format, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
-import { fetchMcplEvents, fetchVisitBloomEvents } from '@/lib/fetchEvents';
+import { fetchMcplEvents, fetchBloomEvents } from '@/lib/fetchEvents';
 
 export async function GET() {
   const today = new Date();
@@ -9,7 +9,8 @@ export async function GET() {
   const remainingDaysInMonth = differenceInDays(lastDayOfMonth, new Date(firstDayOfMonth));
   try {
     const mcplEvents = await fetchMcplEvents(firstDayOfMonth, remainingDaysInMonth);
-    const visitBloomEvents = await fetchVisitBloomEvents();
+    const visitBloomEvents = await fetchBloomEvents(today);
+
     const combinedEvents = [...mcplEvents, ...visitBloomEvents];
     return NextResponse.json(combinedEvents);
   } catch (error) {
