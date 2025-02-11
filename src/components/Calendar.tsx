@@ -5,18 +5,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
 import { useEventSourceContext } from '@/context/EventSourceContext';
+import { FormattedVisitBloomEvent } from '@/app/calendar/page';
 import '../app/globals.css';
-
-interface FormattedVisitBloomEvent {
-  title: string;
-  start: string;
-  end: string;
-  description: string;
-  url: string;
-  location?: string;
-  source: string;
-  color: string;
-}
 
 interface CalendarProps {
   events: FormattedVisitBloomEvent[] | null;
