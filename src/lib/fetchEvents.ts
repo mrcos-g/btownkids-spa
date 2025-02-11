@@ -9,7 +9,8 @@ export const fetchMcplEvents = async (firstDayOfMonth: string, remainingDaysInMo
 };
 
 export const fetchVisitBloomEvents = async () => {
-  const response = await fetch('/api/visitBloomEvents');
+  const response = await fetch(`${process.env.API_BASE_URL}/api/visitBloomEvents`);
+
   const {
     docs: { docs: bloomEvents },
   } = await response.json();

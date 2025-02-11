@@ -19,7 +19,8 @@ import {
 import { CalendarToday, Menu, ExpandMore, ExpandLess, FilterAlt, Home } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useEventSourceContext, EventSource } from '@/context/EventSourceContext';
+import { useEventSourceContext } from '@/context/EventSourceContext';
+import { EventSource } from '@/lib/formatters';
 
 const DrawerAppBar: FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);

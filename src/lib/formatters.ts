@@ -1,5 +1,11 @@
 import { toZonedTime, format } from 'date-fns-tz';
-import { EventSource } from '@/context/EventSourceContext';
+
+export enum EventSource {
+  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
+  SOUTHWEST = 'Southwest Branch (MCPL)',
+  DOWNTOWN = 'Downtown Library (MCPL)',
+  VISIT_BLOOMINGTON = 'VisitBloomington',
+}
 
 interface McplEvent {
   title: string;
@@ -44,6 +50,7 @@ const normalizeUrl = (url: string) => {
 export const mcplFormatter = (data: McplEvent[]) => {
   return data.map((event) => {
     const { location, color } = getMcplLocation(event.location_id);
+
     return {
       title: event.title,
       start: event.event_start,
