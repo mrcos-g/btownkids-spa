@@ -19,7 +19,6 @@ export const fetchBloomEvents = async (date: Date) => {
   const firstDayOfNextMonthISO = startOfNextMonthEncoded(date);
 
   const token = await fetchVisitBloomToken();
-  console.log({ token });
 
   const visitBloomURL = buildVisitBloomURL(firstDayOfMonthISO, firstDayOfNextMonthISO, token);
 

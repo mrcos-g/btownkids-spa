@@ -30,6 +30,7 @@ const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
 
 const CalendarPage = async () => {
   const events = await getEvents();
+  console.log(events);
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
