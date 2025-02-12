@@ -15,7 +15,9 @@ export interface FormattedVisitBloomEvent {
 const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
   try {
     const URL = `${process.env.API_BASE_URL}/api/all-events`;
-    const response = await fetch(URL);
+    const response = await fetch(URL, {
+      next: { revalidate: 60 },
+    });
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
