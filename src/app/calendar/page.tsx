@@ -15,7 +15,7 @@ export interface FormattedVisitBloomEvent {
 const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
   try {
     const response = await fetch(`${process.env.API_BASE_URL}/api/all-events`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
