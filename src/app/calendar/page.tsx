@@ -12,23 +12,25 @@ export interface FormattedVisitBloomEvent {
   color: string;
 }
 
-const CalendarPage = async () => {
-  let events: FormattedVisitBloomEvent[] = [];
-  let error: Error | null = null;
-
+const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
   try {
-    const response = await fetch(`${process.env.API_BASE_URL}/api/all-events`);
+    const response = await fetch(`${process.env.API_BASE_URL}/api/all-events`, {
+      cache: 'no-store',
+    });
+
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    events = await response.json();
-  } catch (err) {
-    error = err as Error;
+    return response.json();
+  } catch (error) {
+    console.error('Failed to fetch events:', error);
+    return [];
   }
+};
 
-  if (error) {
-    return <div>Failed to fetch events: {error.message}</div>;
-  }
+const CalendarPage = async () => {
+  const events = await getEvents();
+
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
       <Calendar events={events || []} />
