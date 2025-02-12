@@ -15,11 +15,7 @@ export interface FormattedVisitBloomEvent {
 const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
   try {
     const URL = `${process.env.API_BASE_URL}/api/all-events`;
-    const response = await fetch(URL, {
-      next: { revalidate: 60 },
-    });
-
-    console.log({ response });
+    const response = await fetch(URL);
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -33,7 +29,6 @@ const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
 
 const CalendarPage = async () => {
   const events = await getEvents();
-  console.log(events);
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
