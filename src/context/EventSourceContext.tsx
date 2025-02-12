@@ -1,12 +1,6 @@
 'use client';
 import { createContext, useContext, useState, ReactNode } from 'react';
-
-export enum EventSource {
-  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
-  SOUTHWEST = 'Southwest Branch (MCPL)',
-  DOWNTOWN = 'Downtown Library (MCPL)',
-  VISIT_BLOOMINGTON = 'VisitBloomington',
-}
+import { EventSource } from '@/lib/formatters';
 
 interface EventSourceContextType {
   selectedSources: string[];

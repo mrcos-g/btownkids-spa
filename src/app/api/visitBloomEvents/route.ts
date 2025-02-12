@@ -14,6 +14,7 @@ export async function GET() {
     const firstDayOfNextMonthISO = startOfNextMonthEncoded(today);
 
     const token = await fetchVisitBloomToken();
+
     const visitBloomURL = buildVisitBloomURL(firstDayOfMonthISO, firstDayOfNextMonthISO, token);
 
     const visitBloomResponse = await fetch(visitBloomURL);

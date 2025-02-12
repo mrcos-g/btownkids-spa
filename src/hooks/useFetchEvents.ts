@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { format, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
-import { fetchMcplEvents, fetchVisitBloomEvents } from '@/lib/fetchEvents';
+import { fetchMcplEvents, fetchBloomEvents } from '@/lib/fetchEvents';
 
 interface McplEvent {
   title: string;
@@ -25,7 +25,7 @@ export const useFetchEvents = () => {
 
       try {
         const mcplEvents = await fetchMcplEvents(firstDayOfMonth, remainingDaysInMonth);
-        const visitBloomEvents = await fetchVisitBloomEvents();
+        const visitBloomEvents = await fetchBloomEvents(today);
         const combinedEvents = [...mcplEvents, ...visitBloomEvents];
         setEvents(combinedEvents);
       } catch (error) {

@@ -1,12 +1,38 @@
-'use client';
-import dynamic from 'next/dynamic';
 import { Box } from '@mui/material';
+import Calendar from '@/components/Calendar';
 
-const Calendar = dynamic(() => import('@/components/Calendar'), { ssr: false });
-const CalendarPage = () => {
+export interface FormattedVisitBloomEvent {
+  title: string;
+  start: string;
+  end: string;
+  description: string;
+  url: string;
+  location?: string;
+  source: string;
+  color: string;
+}
+
+const getEvents = async (): Promise<FormattedVisitBloomEvent[]> => {
+  try {
+    const URL = `${process.env.API_BASE_URL}/api/all-events`;
+    const response = await fetch(URL);
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Failed to fetch events:', error);
+    return [];
+  }
+};
+
+const CalendarPage = async () => {
+  const events = await getEvents();
+
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
-      <Calendar />
+      <Calendar events={events || []} />
     </Box>
   );
 };
