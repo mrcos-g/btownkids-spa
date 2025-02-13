@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Box } from '@mui/material';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
@@ -16,24 +16,32 @@ interface CalendarProps {
 const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
   const { selectedSources } = useEventSourceContext();
 
-  const [events, setEvents] = useState<FormattedVisitBloomEvent[]>(
-    initialEvents.filter((event) => selectedSources.includes(event.source)),
-  );
+  const [rawEvents, setRawEvents] = useState<FormattedVisitBloomEvent[]>(initialEvents);
 
   useEffect(() => {
-    setEvents(initialEvents.filter((event) => selectedSources.includes(event.source)));
-  }, [initialEvents, selectedSources]);
+    setRawEvents(initialEvents);
+  }, [initialEvents]);
 
-  const handleEventSet = async (dateInfo: { startStr: string; endStr: string }) => {
+  const filteredEvents = useMemo(
+    () => rawEvents.filter((event) => selectedSources.includes(event.source)),
+    [rawEvents, selectedSources],
+  );
+
+  const handleDatesSet = async (dateInfo: { startStr: string; endStr: string }) => {
     const { startStr, endStr } = dateInfo;
-    console.log({ startStr, endStr });
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/all-events`;
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    console.log(data);
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/all-events?start=${startStr}&end=${endStr}`;
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: FormattedVisitBloomEvent[] = await response.json();
 
-    // setEvents(data);
+      setRawEvents(data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    }
   };
 
   if (error) {
@@ -46,8 +54,8 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
         <FullCalendar
           plugins={[dayGridView, listMonth]}
           initialView="listMonth"
-          events={events}
-          datesSet={handleEventSet}
+          events={filteredEvents}
+          datesSet={handleDatesSet}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',

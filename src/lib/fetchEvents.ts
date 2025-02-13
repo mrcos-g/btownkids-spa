@@ -1,6 +1,4 @@
-import { startOfMonth } from 'date-fns';
 import { buildMcplURL } from '@/lib/buildMcplURL';
-import { startOfNextMonthEncoded } from '@/lib/startOfNextMonthEncoded';
 import { buildVisitBloomURL, fetchVisitBloomToken } from '@/lib/buildVisitBloomURL';
 import { mcplFormatter, visitBloomFormatter } from '@/lib/formatters';
 
@@ -11,16 +9,9 @@ export const fetchMcplEvents = async (firstDayOfMonth: string, remainingDaysInMo
   return mcplFormatter(data);
 };
 
-export const fetchBloomEvents = async (date: Date) => {
-  const firstDayOfMonth = startOfMonth(date);
-  firstDayOfMonth.setUTCHours(5, 0, 0, 0);
-  const firstDayOfMonthISO = firstDayOfMonth.toISOString();
-
-  const firstDayOfNextMonthISO = startOfNextMonthEncoded(date);
-
+export const fetchBloomEvents = async (startDate: string, endDate: string) => {
   const token = await fetchVisitBloomToken();
-
-  const visitBloomURL = buildVisitBloomURL(firstDayOfMonthISO, firstDayOfNextMonthISO, token);
+  const visitBloomURL = buildVisitBloomURL(startDate, endDate, token);
 
   const visitBloomResponse = await fetch(visitBloomURL);
   const {
