@@ -19,9 +19,10 @@ export async function GET(request: Request) {
   const remainingDaysInMonth = differenceInDays(endDate, startDate);
 
   try {
-    const mcplEvents = await fetchMcplEvents(startDate, remainingDaysInMonth);
-
-    const bloomEvents = await fetchBloomEvents(startDate, endDate);
+    const [mcplEvents, bloomEvents] = await Promise.all([
+      fetchMcplEvents(startDate, remainingDaysInMonth),
+      fetchBloomEvents(startDate, endDate),
+    ]);
 
     const combinedEvents = [...mcplEvents, ...bloomEvents];
     return NextResponse.json(combinedEvents);

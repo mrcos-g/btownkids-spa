@@ -31,6 +31,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
     const { startStr, endStr } = dateInfo;
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/all-events?start=${startStr}&end=${endStr}`;
+    console.log({ apiUrl });
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
