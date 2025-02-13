@@ -25,7 +25,10 @@ export const useFetchEvents = () => {
 
       try {
         const mcplEvents = await fetchMcplEvents(firstDayOfMonth, remainingDaysInMonth);
-        const visitBloomEvents = await fetchBloomEvents(today);
+        const visitBloomEvents = await fetchBloomEvents(
+          firstDayOfMonth,
+          lastDayOfMonth.toISOString(),
+        );
         const combinedEvents = [...mcplEvents, ...visitBloomEvents];
         setEvents(combinedEvents);
       } catch (error) {
