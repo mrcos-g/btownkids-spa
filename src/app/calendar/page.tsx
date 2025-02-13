@@ -34,7 +34,7 @@ const CalendarPage = async () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
-      <Calendar events={events || []} />
+      <Calendar initialEvents={events || []} />
     </Box>
   );
 };

@@ -1,17 +1,29 @@
 import { NextResponse } from 'next/server';
-import { format, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
+import { format, parseISO, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
 import { fetchMcplEvents, fetchBloomEvents } from '@/lib/fetchEvents';
 
-export async function GET() {
-  const today = new Date();
-  const firstDayOfMonth = format(startOfMonth(today), 'yyyy-MM-dd');
-  const lastDayOfMonth = endOfMonth(today);
-  const remainingDaysInMonth = differenceInDays(lastDayOfMonth, new Date(firstDayOfMonth));
-  try {
-    const mcplEvents = await fetchMcplEvents(firstDayOfMonth, remainingDaysInMonth);
-    const visitBloomEvents = await fetchBloomEvents(today);
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  let start = searchParams.get('start');
+  let end = searchParams.get('end');
 
-    const combinedEvents = [...mcplEvents, ...visitBloomEvents];
+  const today = new Date();
+  const dateFormat = 'yyyy-MM-dd';
+  if (!start || !end) {
+    start = format(startOfMonth(today), dateFormat);
+    end = format(endOfMonth(today), dateFormat);
+  }
+
+  const startDate = parseISO(start).toISOString();
+  const endDate = parseISO(end).toISOString();
+  const remainingDaysInMonth = differenceInDays(endDate, startDate);
+
+  try {
+    const mcplEvents = await fetchMcplEvents(startDate, remainingDaysInMonth);
+
+    const bloomEvents = await fetchBloomEvents(startDate, endDate);
+
+    const combinedEvents = [...mcplEvents, ...bloomEvents];
     return NextResponse.json(combinedEvents);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
