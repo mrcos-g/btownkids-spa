@@ -21,9 +21,9 @@ export async function GET(request: Request) {
   try {
     const mcplEvents = await fetchMcplEvents(startDate, remainingDaysInMonth);
 
-    const newBloomEvents = await fetchBloomEvents(startDate, endDate);
+    const bloomEvents = await fetchBloomEvents(startDate, endDate);
 
-    const combinedEvents = [...mcplEvents, ...newBloomEvents];
+    const combinedEvents = [...mcplEvents, ...bloomEvents];
     return NextResponse.json(combinedEvents);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
