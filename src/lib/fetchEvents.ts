@@ -1,6 +1,7 @@
+import { buildIUSportsURL } from './buildIUSportsURL';
 import { buildMcplURL } from '@/lib/buildMcplURL';
 import { buildVisitBloomURL, fetchVisitBloomToken } from '@/lib/buildVisitBloomURL';
-import { mcplFormatter, visitBloomFormatter } from '@/lib/formatters';
+import { mcplFormatter, visitBloomFormatter, IUSportsFormatter } from '@/lib/formatters';
 
 export const fetchMcplEvents = async (firstDayOfMonth: string, remainingDaysInMonth: number) => {
   const mcplUrl = buildMcplURL(firstDayOfMonth, remainingDaysInMonth);
@@ -19,4 +20,11 @@ export const fetchBloomEvents = async (startDate: string, endDate: string) => {
   } = await visitBloomResponse.json();
 
   return visitBloomFormatter(events);
+};
+
+export const fetchIUSportsEvent = async (startOfMonth: string) => {
+  const URL = buildIUSportsURL(startOfMonth);
+  const IUSportsResponse = await fetch(URL);
+  const { events: data } = await IUSportsResponse.json();
+  return IUSportsFormatter(data);
 };

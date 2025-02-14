@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { startOfMonth } from 'date-fns';
-import { startOfNextMonthEncoded } from '@/lib/startOfNextMonthEncoded';
+import { startOfNextMonthEncoded } from '@/utils/dateUtils';
 import { fetchVisitBloomToken, buildVisitBloomURL } from '@/lib/buildVisitBloomURL';
 
 export async function GET() {
