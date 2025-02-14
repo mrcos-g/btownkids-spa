@@ -1,8 +1,7 @@
-import { format } from 'date-fns';
+import { getNextMonthOrFirstOfCurrent } from '@/utils/dateUtils';
 
 export const buildIUSportsURL = (date: string) => {
-  const dateFormat = 'yyyyMMdd';
-  const formattedDate = format(date, dateFormat);
+  const urlDate = getNextMonthOrFirstOfCurrent(date);
 
   const userTimezone = 'America/Indianapolis';
 
@@ -29,7 +28,7 @@ export const buildIUSportsURL = (date: string) => {
     group: 'IU Bloomington Athletics',
   };
 
-  const baseUrl = `https://events.iu.edu/live/calendar/view/month/categories/Sporting%20events/audience/Families/date/${formattedDate}`;
+  const baseUrl = `https://events.iu.edu/live/calendar/view/month/categories/Sporting%20events/audience/Families/date/${urlDate}`;
 
   const params = new URLSearchParams();
   params.append('user_tz', userTimezone);

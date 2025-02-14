@@ -26,6 +26,9 @@ export async function GET(request: Request) {
     ]);
 
     const combinedEvents = [...mcplEvents, ...bloomEvents, ...sportsEvents];
+    // const [sportsEvents] = await Promise.all([fetchIUSportsEvent(startDate)]);
+
+    // const combinedEvents = [...sportsEvents];
     return NextResponse.json(combinedEvents);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

@@ -67,6 +67,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
             window.open(event.event.url, '_blank');
           }}
           contentHeight={'auto'}
+          dayMaxEvents={true}
         />
       </Box>
     </Box>
