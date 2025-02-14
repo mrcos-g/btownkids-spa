@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { format, parseISO, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
-import { fetchMcplEvents, fetchBloomEvents } from '@/lib/fetchEvents';
+import { fetchIUSportsEvent, fetchMcplEvents, fetchBloomEvents } from '@/lib/fetchEvents';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -19,12 +19,13 @@ export async function GET(request: Request) {
   const remainingDaysInMonth = differenceInDays(endDate, startDate);
 
   try {
-    const [mcplEvents, bloomEvents] = await Promise.all([
+    const [mcplEvents, bloomEvents, sportsEvents] = await Promise.all([
       fetchMcplEvents(startDate, remainingDaysInMonth),
       fetchBloomEvents(startDate, endDate),
+      fetchIUSportsEvent(startDate),
     ]);
 
-    const combinedEvents = [...mcplEvents, ...bloomEvents];
+    const combinedEvents = [...mcplEvents, ...bloomEvents, ...sportsEvents];
     return NextResponse.json(combinedEvents);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

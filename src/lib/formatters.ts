@@ -5,6 +5,7 @@ export enum EventSource {
   SOUTHWEST = 'Southwest Branch (MCPL)',
   DOWNTOWN = 'Downtown Library (MCPL)',
   VISIT_BLOOMINGTON = 'VisitBloomington',
+  IU_SPORTS = 'IU Sports',
 }
 
 interface McplEvent {
@@ -30,6 +31,40 @@ interface VisitBloomEvent {
   url: string;
 }
 
+interface IUSportEvent {
+  id: string;
+  ts_start: number;
+  tz: string;
+  tz_abbrv: string;
+  tz_offset: number;
+  tz_format: string;
+  href: string;
+  title: string;
+  status: string;
+  location: string;
+  summary: string;
+  repeats: string;
+  user_offset: number;
+  user_abbrv: string;
+}
+
+interface IUEventData {
+  [date: string]: IUSportEvent[];
+}
+
+interface FormattedEvent {
+  title: string;
+  url: string;
+  date: string;
+  start: string;
+  source: string;
+  color: string;
+  location: string;
+  allDay: boolean;
+}
+
+type FormattedIUSportsEvent = FormattedEvent[];
+
 const getMcplLocation = (locationId: string) => {
   switch (locationId) {
     case '3696':
@@ -46,6 +81,13 @@ const getMcplLocation = (locationId: string) => {
 const normalizeUrl = (url: string) => {
   return url.replace(/([^:])\/{2,}/g, '$1/');
 };
+
+function convertToEST(timestamp: number): string {
+  const timeZone = 'America/New_York';
+  const date = toZonedTime(timestamp * 1000, timeZone);
+
+  return format(date, 'yyyy-MM-dd HH:mm:ss', { timeZone });
+}
 
 export const mcplFormatter = (data: McplEvent[]) => {
   return data.map((event) => {
@@ -84,4 +126,29 @@ export const visitBloomFormatter = (data: VisitBloomEvent[]) => {
       source: 'VisitBloomington',
     };
   });
+};
+
+export const IUSportsFormatter = (data: IUEventData): FormattedIUSportsEvent => {
+  const formattedEvents: FormattedIUSportsEvent = [];
+  const baseURL = 'https://events.iu.edu/hoosiers/';
+  const color = 'gray';
+
+  for (const [date, events] of Object.entries(data)) {
+    events.forEach((event) => {
+      if (event.location.includes('Bloomington')) {
+        formattedEvents.push({
+          title: event.title,
+          url: `${baseURL}${event.href}`,
+          date,
+          start: convertToEST(event.ts_start),
+          source: 'IU Sports',
+          color,
+          location: event.location,
+          allDay: false,
+        });
+      }
+    });
+  }
+
+  return formattedEvents;
 };
