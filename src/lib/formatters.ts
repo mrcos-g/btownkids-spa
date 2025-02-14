@@ -1,4 +1,5 @@
 import { toZonedTime, format } from 'date-fns-tz';
+import { removeDateFromTitle } from '@/utils/dateUtils';
 
 export enum EventSource {
   ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
@@ -137,7 +138,7 @@ export const IUSportsFormatter = (data: IUEventData): FormattedIUSportsEvent => 
     events.forEach((event) => {
       if (event.location.includes('Bloomington')) {
         formattedEvents.push({
-          title: event.title,
+          title: `${removeDateFromTitle(event.title)}`,
           url: `${baseURL}${event.href}`,
           date,
           start: convertToEST(event.ts_start),

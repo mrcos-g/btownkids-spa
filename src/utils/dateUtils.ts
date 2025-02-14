@@ -10,7 +10,7 @@ export const startOfNextMonthEncoded = (date: Date): string => {
   return followingMonthInUTC.toISOString();
 };
 
-export function getNextMonthOrFirstOfCurrent(dateString: string): string {
+export const getNextMonthOrFirstOfCurrent = (dateString: string): string => {
   const date = parseISO(dateString);
   const lastDayOfMonth = endOfMonth(date);
   const daysRemaining = differenceInDays(lastDayOfMonth, date);
@@ -22,4 +22,8 @@ export function getNextMonthOrFirstOfCurrent(dateString: string): string {
   } else {
     return format(startOfMonth(date), dateFormat);
   }
-}
+};
+
+export const removeDateFromTitle = (title: string): string => {
+  return title.replace(/^\d{1,2}\/\d{1,2} \d{1,2}:\d{2} [APM]{2} /, '').trim();
+};
