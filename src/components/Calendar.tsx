@@ -1,6 +1,6 @@
 'use client';
-import { FC, useEffect, useMemo, useState } from 'react';
-import { Box } from '@mui/material';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { Box, Button, Grid2, Typography } from '@mui/material';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
@@ -14,6 +14,7 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
+  const calendarRef = useRef<FullCalendar>(null);
   const { selectedSources } = useEventSourceContext();
 
   const [rawEvents, setRawEvents] = useState<FormattedVisitBloomEvent[]>(initialEvents);
@@ -51,17 +52,74 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
 
   return (
     <Box sx={{ pt: 8 }}>
+      <Grid2 container alignItems="center" justifyContent="center" spacing={2}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (calendarRef.current) {
+              calendarRef.current.getApi().prev();
+            }
+          }}
+        >
+          {`<`}
+        </Button>
+
+        {calendarRef.current && (
+          <Typography variant="h4">{calendarRef.current.getApi().view.title}</Typography>
+        )}
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (calendarRef.current) {
+              calendarRef.current.getApi().next();
+            }
+          }}
+        >
+          {`>`}
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (calendarRef.current) {
+              calendarRef.current.getApi().changeView('listMonth');
+            }
+          }}
+        >
+          List View
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (calendarRef.current) {
+              calendarRef.current.getApi().changeView('dayGridMonth');
+            }
+          }}
+        >
+          Month View
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (calendarRef.current) {
+              calendarRef.current.getApi().today();
+            }
+          }}
+        >
+          Today
+        </Button>
+      </Grid2>
       <Box>
         <FullCalendar
+          ref={calendarRef}
           plugins={[dayGridView, listMonth]}
           initialView="listMonth"
           events={filteredEvents}
           datesSet={handleDatesSet}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'listMonth dayGridMonth',
-          }}
+          headerToolbar={false}
           eventClick={(event) => {
             event.jsEvent.preventDefault();
             window.open(event.event.url, '_blank');
