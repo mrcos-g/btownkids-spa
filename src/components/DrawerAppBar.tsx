@@ -51,15 +51,23 @@ const DrawerAppBar: FC = () => {
           <FormGroup>
             {Object.values(EventSource).map((source) => (
               <FormControlLabel
-                key={source}
-                sx={{ pl: 4 }}
+                key={source.location}
+                sx={{
+                  pl: 4,
+                }}
                 control={
                   <Checkbox
-                    checked={selectedSources.includes(source)}
-                    onChange={() => setStateSelectedSource(source)}
+                    checked={selectedSources.includes(source.location)}
+                    onChange={() => setStateSelectedSource(source.location)}
+                    sx={{
+                      color: source.color,
+                      '&.Mui-checked': {
+                        color: source.color,
+                      },
+                    }}
                   />
                 }
-                label={source}
+                label={source.location}
               />
             ))}
           </FormGroup>

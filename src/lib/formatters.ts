@@ -1,13 +1,13 @@
 import { toZonedTime, format } from 'date-fns-tz';
 import { removeDateFromTitle } from '@/utils/dateUtils';
 
-export enum EventSource {
-  ELLETTSVILLE = 'Ellettsville Branch (MCPL)',
-  SOUTHWEST = 'Southwest Branch (MCPL)',
-  DOWNTOWN = 'Downtown Library (MCPL)',
-  VISIT_BLOOMINGTON = 'VisitBloomington',
-  IU_SPORTS = 'IU Sports',
-}
+export const EventSource = {
+  ELLETTSVILLE: { location: 'Ellettsville Branch (MCPL)', color: '#8E44AD' },
+  SOUTHWEST: { location: 'Southwest Branch (MCPL)', color: '#F39C12' },
+  DOWNTOWN: { location: 'Downtown Library (MCPL)', color: '#2980B9' },
+  VISIT_BLOOMINGTON: { location: 'VisitBloomington', color: '#27AE60' },
+  IU_SPORTS: { location: 'IU Sports', color: '#E74C3C' },
+};
 
 interface McplEvent {
   title: string;
@@ -69,11 +69,11 @@ type FormattedIUSportsEvent = FormattedEvent[];
 const getMcplLocation = (locationId: string) => {
   switch (locationId) {
     case '3696':
-      return { location: EventSource.ELLETTSVILLE, color: 'green' };
+      return { location: EventSource.ELLETTSVILLE.location, color: '#8E44AD' };
     case '3697':
-      return { location: EventSource.SOUTHWEST, color: 'purple' };
+      return { location: EventSource.SOUTHWEST.location, color: '#F39C12' };
     case '3648':
-      return { location: EventSource.DOWNTOWN, color: '#3788d8' };
+      return { location: EventSource.DOWNTOWN.location, color: '#2980B9' };
     default:
       return { location: 'Unknown Location', color: 'gray' };
   }
@@ -113,7 +113,7 @@ export const visitBloomFormatter = (data: VisitBloomEvent[]) => {
   return data.map((event) => {
     const bloomingtonTime = toZonedTime(event.dates.eventDate, timeZone);
     const formattedDate = format(bloomingtonTime, 'yyyy-MM-dd');
-    const color = 'red';
+    const color = '#27AE60';
     return {
       title: event.title,
       start: `${formattedDate} ${event.startTime}`,
@@ -132,7 +132,7 @@ export const visitBloomFormatter = (data: VisitBloomEvent[]) => {
 export const IUSportsFormatter = (data: IUEventData): FormattedIUSportsEvent => {
   const formattedEvents: FormattedIUSportsEvent = [];
   const baseURL = 'https://events.iu.edu/hoosiers/';
-  const color = 'gray';
+  const color = '#E74C3C';
 
   for (const [date, events] of Object.entries(data)) {
     events.forEach((event) => {

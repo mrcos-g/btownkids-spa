@@ -14,7 +14,9 @@ interface EventSourceProviderProps {
 const EventSourceContext = createContext<EventSourceContextType | undefined>(undefined);
 
 export const EventSourceProvider = ({ children }: EventSourceProviderProps) => {
-  const [selectedSources, setSelectedSources] = useState<string[]>(Object.values(EventSource));
+  const [selectedSources, setSelectedSources] = useState<string[]>(
+    Object.values(EventSource).map((source) => source.location),
+  );
 
   const setStateSelectedSource = (source: string) => {
     setSelectedSources((previousSelectedSources) =>
