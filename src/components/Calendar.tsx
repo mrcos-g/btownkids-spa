@@ -152,7 +152,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
           </Button>
         </Tooltip>
       </Grid2>
-      <Box>
+      <Box sx={{ mr: 1.5, ml: 1.5 }}>
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridView, listMonth]}
