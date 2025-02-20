@@ -1,6 +1,11 @@
 'use client';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { Box, Button, Grid2, Typography } from '@mui/material';
+import { Box, Button, Grid2, Tooltip, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import TodayIcon from '@mui/icons-material/Today';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
@@ -52,65 +57,100 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
 
   return (
     <Box sx={{ pt: 8 }}>
-      <Grid2 container alignItems="center" justifyContent="center" spacing={2}>
-        <Button
-          variant="contained"
-          onClick={() => {
-            if (calendarRef.current) {
-              calendarRef.current.getApi().prev();
-            }
-          }}
-        >
-          {`<`}
-        </Button>
+      <Grid2
+        container
+        alignItems="center"
+        justifyContent="center"
+        spacing={2}
+        paddingTop={4}
+        paddingBottom={2}
+      >
+        <Tooltip title="Previous">
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (calendarRef.current) {
+                calendarRef.current.getApi().prev();
+              }
+            }}
+          >
+            <ArrowBackIcon />
+          </Button>
+        </Tooltip>
 
         {calendarRef.current && (
-          <Typography variant="h4">{calendarRef.current.getApi().view.title}</Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              width: '200px',
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {calendarRef.current.getApi().view.title}
+          </Typography>
         )}
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            if (calendarRef.current) {
-              calendarRef.current.getApi().next();
-            }
-          }}
-        >
-          {`>`}
-        </Button>
+        <Tooltip title="Next">
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (calendarRef.current) {
+                calendarRef.current.getApi().next();
+              }
+            }}
+          >
+            <ArrowForwardIcon />
+          </Button>
+        </Tooltip>
+      </Grid2>
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            if (calendarRef.current) {
-              calendarRef.current.getApi().changeView('listMonth');
-            }
-          }}
-        >
-          List View
-        </Button>
+      <Grid2
+        container
+        alignItems="center"
+        justifyContent="center"
+        spacing={2}
+        paddingBottom={4}
+        paddingTop={2}
+      >
+        <Tooltip title="List View">
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (calendarRef.current) {
+                calendarRef.current.getApi().changeView('listMonth');
+              }
+            }}
+          >
+            <ViewListIcon />
+          </Button>
+        </Tooltip>
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            if (calendarRef.current) {
-              calendarRef.current.getApi().changeView('dayGridMonth');
-            }
-          }}
-        >
-          Month View
-        </Button>
+        <Tooltip title="Month View">
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (calendarRef.current) {
+                calendarRef.current.getApi().changeView('dayGridMonth');
+              }
+            }}
+          >
+            <CalendarMonthIcon />
+          </Button>
+        </Tooltip>
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            if (calendarRef.current) {
-              calendarRef.current.getApi().today();
-            }
-          }}
-        >
-          Today
-        </Button>
+        <Tooltip title="Today">
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (calendarRef.current) {
+                calendarRef.current.getApi().today();
+              }
+            }}
+          >
+            <TodayIcon />
+          </Button>
+        </Tooltip>
       </Grid2>
       <Box>
         <FullCalendar
