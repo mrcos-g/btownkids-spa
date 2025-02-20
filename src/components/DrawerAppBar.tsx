@@ -16,7 +16,15 @@ import {
   ListItemText,
   Toolbar,
 } from '@mui/material';
-import { CalendarToday, Menu, ExpandMore, ExpandLess, FilterAlt, Home } from '@mui/icons-material';
+import {
+  CalendarToday,
+  Menu,
+  ExpandMore,
+  ExpandLess,
+  FilterAlt,
+  Home,
+  Info,
+} from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useEventSourceContext } from '@/context/EventSourceContext';
@@ -112,6 +120,12 @@ const DrawerAppBar: FC = () => {
               <Home />
             </ListItemIcon>
             <ListItemText primary="Home" />
+          </ListItemButton>
+          <ListItemButton component={Link} href="/about" selected={pathname === '/about'}>
+            <ListItemIcon>
+              <Info />
+            </ListItemIcon>
+            <ListItemText primary="About" />
           </ListItemButton>
           <ListItemButton component={Link} href="/calendar" selected={pathname === '/calendar'}>
             <ListItemIcon>
