@@ -110,6 +110,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
         >
           <Tooltip title="Previous">
             <Button
+              size="large"
               variant="contained"
               onClick={() => {
                 if (calendarRef.current) {
@@ -136,6 +137,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
 
           <Tooltip title="Next">
             <Button
+              size="large"
               variant="contained"
               onClick={() => {
                 if (calendarRef.current) {
@@ -158,6 +160,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
         >
           <Tooltip title="List View">
             <Button
+              size="large"
               variant="contained"
               onClick={() => {
                 if (calendarRef.current) {
@@ -171,6 +174,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
 
           <Tooltip title="Month View">
             <Button
+              size="large"
               variant="contained"
               onClick={() => {
                 if (calendarRef.current) {
@@ -184,6 +188,7 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
 
           <Tooltip title="Today">
             <Button
+              size="large"
               variant="contained"
               onClick={() => {
                 if (calendarRef.current) {
@@ -224,7 +229,9 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             bgcolor: 'white',
-            p: 4,
+            p: { xs: 2, sm: 4 },
+            width: { xs: '90%', sm: 'auto' },
+            maxWidth: '500px',
           }}
         >
           <Box sx={{ textAlign: 'center' }}>
