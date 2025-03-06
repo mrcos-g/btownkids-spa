@@ -7,10 +7,12 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TodayIcon from '@mui/icons-material/Today';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import { EventClickArg } from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/react';
 import dayGridView from '@fullcalendar/daygrid';
 import listMonth from '@fullcalendar/list';
 import { useEventSourceContext } from '@/context/EventSourceContext';
+import { convertToEasternTime } from '@/utils/dateUtils';
 import { FormattedVisitBloomEvent } from '@/app/calendar/page';
 import '../app/globals.css';
 
@@ -28,6 +30,8 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
   const [selectedEventName, setSelectedEventName] = useState<string>('');
   const [selectedEventDescription, setSelectedEventDescription] = useState<string>('');
   const [selectedEventUrl, setSelectedEventUrl] = useState<string>('');
+  const [selectedEventTime, setSelectedEventTime] = useState<string>('');
+  const [selectedEventDate, setSelectedEventDate] = useState<string>('');
 
   useEffect(() => {
     setRawEvents(initialEvents);
@@ -56,7 +60,36 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
     }
   };
 
+  const handleEventClick = (event: EventClickArg) => {
+    event.jsEvent.preventDefault();
+
+    let formattedTime = 'Time not available';
+    let formattedDate = 'Date not available';
+
+    if (event.event.startStr) {
+      const { date, day, time: startTime } = convertToEasternTime(event.event.startStr);
+      formattedTime = startTime;
+      formattedDate = `${day}, ${date}`;
+    }
+
+    if (event.event.endStr) {
+      const { time: endTime } = convertToEasternTime(event.event.endStr);
+      formattedTime = `${formattedTime} - ${endTime}`;
+    }
+
+    setSelectedEventDate(formattedDate);
+    setSelectedEventTime(formattedTime);
+    setSelectedEventName(event.event.title);
+    setSelectedEventDescription(event.event.extendedProps.description);
+    setSelectedEventUrl(event.event.url);
+    setModalOpen(true);
+  };
+
   const handleModalClose = () => {
+    setSelectedEventName('');
+    setSelectedEventDescription('');
+    setSelectedEventUrl('');
+    setSelectedEventTime('');
     setModalOpen(false);
   };
 
@@ -170,21 +203,20 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
             events={filteredEvents}
             datesSet={handleDatesSet}
             headerToolbar={false}
-            eventClick={(event) => {
-              event.jsEvent.preventDefault();
-              // window.open(event.event.url, '_blank');
-              setSelectedEventName(event.event._def.title);
-              setSelectedEventDescription(event.event._def.extendedProps.description);
-              console.log(event.event.url);
-              setSelectedEventUrl(event.event.url);
-              setModalOpen(true);
-            }}
+            eventClick={handleEventClick}
             contentHeight={'auto'}
             dayMaxEvents={true}
           />
         </Box>
       </Box>
-      <Modal open={modalOpen} onClose={handleModalClose}>
+      <Modal
+        open={modalOpen}
+        onClose={(event, reason) => {
+          if (reason === 'backdropClick') {
+            handleModalClose();
+          }
+        }}
+      >
         <Box
           sx={{
             position: 'absolute',
@@ -196,12 +228,27 @@ const Calendar: FC<CalendarProps> = ({ initialEvents = [], error }) => {
           }}
         >
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h4">Event Details</Typography>
-            <Typography variant="h5">{selectedEventName}</Typography>
-            <Typography variant="body1">{selectedEventDescription}</Typography>
+            <Box sx={{ pb: 2 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                {selectedEventName}
+              </Typography>
+            </Box>
+            <Box sx={{ pb: 2 }}>
+              <Typography variant="body1">{selectedEventDate}</Typography>
+              <Typography variant="body1">{selectedEventTime}</Typography>
+            </Box>
+            <Box sx={{ pb: 2 }}>
+              {selectedEventDescription ? (
+                <Typography variant="body1">{selectedEventDescription}</Typography>
+              ) : (
+                <Typography variant="body1">No description available.</Typography>
+              )}
+            </Box>
 
             <Link href={selectedEventUrl} target="_blank">
-              More Information
+              <Typography variant="body1" sx={{ color: 'blue', cursor: 'pointer', pt: 4 }}>
+                More Information
+              </Typography>
             </Link>
           </Box>
         </Box>

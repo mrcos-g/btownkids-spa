@@ -1,5 +1,5 @@
-import { parseISO, endOfMonth, differenceInDays, addMonths, startOfMonth, format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { parseISO, endOfMonth, differenceInDays, addMonths, startOfMonth } from 'date-fns';
+import { toZonedTime, format } from 'date-fns-tz';
 
 export const startOfNextMonthEncoded = (date: Date): string => {
   const firstDayOfFollowingMonth = startOfMonth(addMonths(date, 1));
@@ -26,4 +26,22 @@ export const getNextMonthOrFirstOfCurrent = (dateString: string): string => {
 
 export const removeDateFromTitle = (title: string): string => {
   return title.replace(/^\d{1,2}\/\d{1,2} \d{1,2}:\d{2} [APM]{2} /, '').trim();
+};
+
+export const convertToEasternTime = (
+  dateTime: string,
+): { day: string; date: string; time: string } => {
+  const timeZone = 'America/Indiana/Indianapolis';
+
+  const date = parseISO(dateTime);
+
+  const zonedDate = toZonedTime(date, timeZone);
+
+  const formattedDateObj = {
+    day: format(zonedDate, 'EEEE', { timeZone }),
+    date: format(zonedDate, 'MMMM d, yyyy', { timeZone }),
+    time: format(zonedDate, 'hh:mm:ss a', { timeZone }),
+  };
+
+  return formattedDateObj;
 };
